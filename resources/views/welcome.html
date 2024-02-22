@@ -1,0 +1,101 @@
+
+<!DOCTYPE html>
+    <html lang="ru">
+    <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Авторизация</title>
+    <style>
+        body {
+        background-color: #05c46b;
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+        font-family: Verdana;
+        text-align: center;
+        margin: 0;
+        }
+
+        body::before {
+        content: "";
+        background: inherit;
+        position: fixed;
+        z-index: -1;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        filter: blur(10px);
+        }
+
+        form {
+        background-color: #ffffff;
+        max-width: 500px;
+        margin: 50px auto;
+        padding: 30px 20px;
+        box-shadow: 2px 5px 10px rgba(0, 0, 0, 0.5);
+        border-radius: 25px; 
+        }
+
+        .form-control {
+        text-align: left;
+        margin-bottom: 25px;
+        }
+
+        .form-control label {
+        display: block;
+        margin-bottom: 10px;
+        }
+
+        .form-control input,
+        .form-control select,
+        .form-control textarea {
+        border: 1px solid #777;
+        border-radius: 2px;
+        font-family: inherit;
+        padding: 10px;
+        display: block;
+        width: 95%;
+        }
+
+        .form-control input[type="radio"],
+        .form-control input[type="checkbox"] {
+        display: inline-block;
+        width: auto;
+        }
+
+        button {
+        background-color: #05c46b;
+        border: 1px solid #777;
+        border-radius: 2px;
+        font-family: inherit;
+        font-size: 21px;
+        display: block;
+        width: 100%;
+        margin-top: 50px;
+        margin-bottom: 20px;
+        border-radius: 25px; 
+        }
+    </style>
+    </head>
+
+    <body>
+    <form>
+    <div class="form-control">
+        <label for="login">Логин</label>
+        <input type="text" id="login" name="login" placeholder="Введите логин" required />
+    </div>
+
+    <div class="form-control">
+        <label for="password">Пароль</label>
+        <input type="password" id="password" name="password" placeholder="Введите пароль" required />
+    </div>
+    <button type="submit">Войти</button>
+
+    <p>Еще нет аккаунта? <a href="{{ route('https://jut.su/') }}">Зарегистрируйтесь здесь</a></p>
+
+    </form>
+    </body>
+</html>
+        
