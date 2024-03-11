@@ -4,11 +4,11 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\User;
-use App\Models\Skill;
+use App\Models\Chat;
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Model>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Message>
  */
-class UserSkillFactory extends Factory
+class MessageFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -18,8 +18,9 @@ class UserSkillFactory extends Factory
     public function definition()
     {
         return [
+            'chat_id' => Chat::get()->random()->id,
             'user_id' => User::get()->random()->id,
-            'skill_id' => Skill::get()->random()->id,
+            'content' => fake()->text(rand(5, 100)),
         ];
     }
 }

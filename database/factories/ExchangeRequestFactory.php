@@ -8,7 +8,7 @@ use App\Models\Skill;
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Model>
  */
-class UserSkillFactory extends Factory
+class ExchangeRequestFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -18,8 +18,11 @@ class UserSkillFactory extends Factory
     public function definition()
     {
         return [
-            'user_id' => User::get()->random()->id,
+            'sender_user_id' => User::get()->random()->id,
+            'receiver_user_id' => User::get()->random()->id,
             'skill_id' => Skill::get()->random()->id,
+            'status' => fake()->text(20),
+            'message' => fake()->text(20),
         ];
     }
 }

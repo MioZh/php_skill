@@ -13,6 +13,10 @@ class User extends Authenticatable implements AuthenticatableContract
     ];
     protected $table = 'users';
 
+    public function settingchat()
+    {
+        return $this->hasMany(ChatSetting::class);
+    }
 
     public function skills()
     {

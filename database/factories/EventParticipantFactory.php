@@ -4,11 +4,11 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\User;
-use App\Models\Skill;
+use App\Models\Event;
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Model>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\EventParticipant>
  */
-class UserSkillFactory extends Factory
+class EventParticipantFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -19,7 +19,7 @@ class UserSkillFactory extends Factory
     {
         return [
             'user_id' => User::get()->random()->id,
-            'skill_id' => Skill::get()->random()->id,
+            'event_id' => Event::get()->random()->id,
         ];
     }
 }

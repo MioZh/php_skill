@@ -4,11 +4,10 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\User;
-use App\Models\Skill;
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Model>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Notification>
  */
-class UserSkillFactory extends Factory
+class NotificationFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -19,7 +18,8 @@ class UserSkillFactory extends Factory
     {
         return [
             'user_id' => User::get()->random()->id,
-            'skill_id' => Skill::get()->random()->id,
+            'content' => fake()->text(20),
+            'is_read' => rand(0, 1),
         ];
     }
 }
