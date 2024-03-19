@@ -47,4 +47,9 @@ class User extends Authenticatable implements AuthenticatableContract
     {
         return $this->hasMany(Token::class);
     }
+
+    public function image()
+    {
+        return $this->hasMany(Image::class);
+    }
 }

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Личные сообщения</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #f0f0f0;
+        }
+
+        .search-container {
+            width: 100%;
+            padding: 20px;
+            background-color: #fff;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .search-input {
+            width: 80%;
+            padding: 10px;
+            margin-bottom: 20px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .message-container {
+            width: 80%;
+            padding: 20px;
+            background-color: #fff;
+            margin-top: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border-radius: 10px;
+        }
+
+        .message {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 20px; /* Добавлен отступ снизу для разделительной линии */
+            border-bottom: 1px solid #ddd; /* Добавлен стиль для разделительной линии */
+        }
+
+        .message img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .message-info {
+            flex: 1;
+        }
+
+        .message-info h3 {
+            margin: 0;
+            font-size: 18px;
+        }
+
+        .message-info p {
+            margin: 5px 0;
+            font-size: 14px;
+        }
+
+        .bottom-menu {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #ddd;
+            padding: 10px 0;
+            display: flex;
+            justify-content: space-around;
+        }
+
+        .bottom-menu a {
+            text-decoration: none;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex-grow: 1;
+        }
+
+        .bottom-menu img {
+            width: 24px;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="message-container">
+        <input type="text" class="search-input" placeholder="Поиск...">
+    </div>
+
+    <div class="message-container">
+        <div class="message">
+            <img src="pict/profaa.jpg" alt="Фото отправителя">
+            <div class="message-info">
+                <h3>Иван Иванов</h3>
+                <p>Привет, как дела?</p>
+            </div>
+        </div>
+        <div class="message">
+            <img src="pict/profa.jpg" alt="Фото отправителя">
+            <div class="message-info">
+                <h3>Мария Петрова</h3>
+                <p>Привет, что нового?</p>
+            </div>
+        </div>
+        <!-- Добавьте другие сообщения по аналогии с вышеуказанными -->
+    </div>
+
+    <div class="bottom-menu">
+        <a href="message.html">
+            <img src="pict/mes.png" alt="Иконка сообщения">
+            <span>Сообщение</span>
+        </a>
+        <a href="poisk.html">
+            <img src="pict/poisk.png" alt="Иконка поиска">
+            <span>Поиск</span>
+        </a>
+        <a href="event.html">
+            <img src="pict/kal.png" alt="Иконка ивента">
+            <span>Ивент</span>
+        </a>
+        <a href="profil.html">
+            <img src="pict/prof.png" alt="Иконка профиля">
+            <span>Профиль</span>
+        </a>
+    </div>
+
+</body>
+</html>

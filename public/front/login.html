@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Вход</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+
+        .form-container {
+            width: 400px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+        }
+
+        input[type="email"],
+        input[type="password"],
+        input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+
+        input[type="submit"] {
+            background-color: #007bff;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        .register-link {
+            font-size: 14px;
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .register-link:hover {
+            text-decoration: underline;
+        }
+
+        .error-message {
+            color: red;
+            margin-bottom: 10px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h2>Вход</h2>
+        <div id="errorMessage" class="error-message"></div>
+        <form id="loginForm">
+            <input type="email" id="useremail" name="useremail" placeholder="Электронная почта" required><br>
+            <input type="password" id="password" name="password" placeholder="Пароль" required><br>
+            <input type="submit" value="Войти">
+        </form>
+        <p>Нет аккаунта? <a href="register.html" class="register-link">Зарегистрироваться</a></p>
+    </div>
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function (e) {
+            e.preventDefault(); // Предотвращаем отправку формы по умолчанию
+            
+            // Получаем значения полей формы
+            var userEmail = document.getElementById('useremail').value;
+            var password = document.getElementById('password').value;
+
+            // Отправляем AJAX-запрос
+            fetch('http://blogsite.log/api/login?email=' + encodeURIComponent(userEmail) + '&password=' + encodeURIComponent(password))
+            .then(response => response.json())
+            .then(data => {
+                // Проверяем ответ от сервера
+                if (data.message === "Login successful") {
+                    // Если вход успешен, перенаправляем на страницу профиля и передаем id пользователя
+                    window.location.href = "profil.html?id=" + data.user.id;
+                } else {
+                    // Если вход неуспешен, выводим сообщение об ошибке
+                    var errorMessage = document.getElementById('errorMessage');
+                    errorMessage.textContent = "Неправильный логин или пароль";
+                    errorMessage.style.display = "block";
+                    setTimeout(function(){
+                        errorMessage.style.display = "none";
+                    }, 3000);
+                }
+            })
+            .catch(error => {
+                console.error('Ошибка при отправке запроса:', error);
+            });
+        });
+    </script>
+</body>
+</html>

@@ -33,8 +33,8 @@ class UserController extends Controller
 
     public function show($id)
     {
-        $user = User::findOrFail($id);
-        return view('users.show', compact('user'));
+        $user = User::with(['skills'])->find($id);
+        return $user;
     }
 
     public function edit($id)
@@ -45,16 +45,20 @@ class UserController extends Controller
 
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'name' => 'required',
+        $user = User::find($id);
+
+        if (!$user) {
+            return response()->json(['message' => 'Пользователь не найден'], 404);
+        }
+
+        $validatedData = $request->validate([
+            'name' => 'required|string',
             'email' => 'required|email|unique:users,email,' . $id,
-            'password' => 'nullable|min:6',
         ]);
 
-        $user = User::findOrFail($id);
-        $user->update($request->all());
+        $user->update($validatedData);
 
-        return redirect()->route('users.index')->with('success', 'Пользователь успешно обновлен');
+        return response()->json(['message' => 'Пользователь успешно обновлен', 'user' => $user]);
     }
 
     public function destroy($id)
