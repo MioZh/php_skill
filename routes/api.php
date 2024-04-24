@@ -6,7 +6,8 @@ use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ImageController;
-
+use App\Http\Controllers\EventController;
+use App\Http\Controllers\EventParticipantsController;
 
 
 /*
@@ -30,6 +31,16 @@ Route::post('/updateUser/{id}', [UserController::class, 'update']);
 
 Route::post('/updateImage/{id}', [ImageController::class, 'store']);
 
-Route::get('showImage/{id}', [ImageController::class, 'getUserImage']);
+Route::get('/showImage/{id}', [ImageController::class, 'getUserImage']);
 
 Route::get('createImage/', [ImageController::class, 'create']);
+
+Route::get('/showtoken/{token}', [UserController::class, 'showtoken']);
+
+Route::get('/showEvent/{token}', [EventController::class, 'getAllEvents']);
+
+Route::post('/insertEvent/{token}', [EventController::class, 'insertEvent']);
+
+Route::get('/searchEvents/{token}', [EventController::class, 'searchEvents']);
+
+Route::post('/eventPart/{token}', [EventParticipantsController::class, 'eventParticipant']);

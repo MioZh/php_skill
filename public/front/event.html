@@ -13,23 +13,22 @@
             background-color: #f0f0f0;
         }
 
-        .search-container {
-            width: 100%;
+        .event-form {
+            width: 70%; /* Ширина контейнера событий */
             padding: 20px;
             background-color: #fff;
-            text-align: center;
+            margin-top: 20px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            display: flex;
-            justify-content: space-between; /* Добавлено выравнивание элементов по горизонтали */
-            align-items: center; /* Добавлено выравнивание элементов по вертикали */
+            border-radius: 10px;
         }
 
         .search-input {
-            width: 40%; /* Уменьшена ширина поля поиска */
+            width: 100%; /* Поле поиска будет занимать всю ширину контейнера событий */
             padding: 10px;
-            box-sizing: border-box;
             border: 1px solid #ccc;
             border-radius: 4px;
+            font-size: 16px;
+            margin-bottom: 10px; /* Добавим небольшой отступ между полем поиска и кнопками */
         }
 
         .filter-button {
@@ -42,13 +41,14 @@
         }
 
         .event-form {
-            width: 70%;
-            padding: 20px;
-            background-color: #fff;
-            margin-top: 20px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            border-radius: 10px;
-        }
+    width: 70%;
+    padding: 20px;
+    background-color: #fff;
+    margin: 80px auto 20px; /* Увеличим отступ сверху и уменьшим снизу */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    border-radius: 10px;
+    position: relative; /* Установим относительное позиционирование */
+}
 
         .event-form h2 {
             margin-bottom: 20px;
@@ -111,34 +111,34 @@
             border: 1px solid #888;
             width: 70%;
             border-radius: 10px;
-            }
+        }
 
             .close {
             color: #aaa;
             float: right;
             font-size: 28px;
             font-weight: bold;
-            }
+        }
 
             .close:hover,
             .close:focus {
             color: black;
             text-decoration: none;
             cursor: pointer;
-            }
+        }
 
             .form-group {
             margin-bottom: 20px;
-            }
+        }
 
             label {
             display: block;
             font-weight: bold;
-            }
+        }
 
-            input[type="text"],
-            input[type="date"],
-            textarea {
+        input[type="text"],
+        input[type="date"],
+        textarea {
             width: 100%;
             padding: 10px;
             border: 1px solid #ccc;
@@ -146,74 +146,49 @@
             box-sizing: border-box;
             font-size: 16px;
             margin-top: 5px;
-            }
+        }
 
-            textarea {
+        textarea {
             resize: vertical;
             min-height: 100px;
-            }
+        }
 
-            .add-event-button {
+        .add-event-button {
             background-color: #007bff;
             color: #fff;
             padding: 10px 20px;
             border: none;
             border-radius: 4px;
             cursor: pointer;
-            }
+        }
 
-            .add-event-button:hover {
+        .add-event-button:hover {
             background-color: #0056b3;
+        }
+        .message-container {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 20px;
+            background-color: white;
+            color: black;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            z-index: 9999;
         }
     </style>
 </head>
 <body>
-    <div class="event-form">
+    <div class="search-container">
         <input type="text" class="search-input" placeholder="Поиск...">
-        <button class="filter-button">Фильтр</button>
+        <button class="filter-button">Поиск</button>
         <button id="openModal" class="filter-button">Добавить событие</button>
     </div>
 
-    <div id="myModal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2>Добавить событие</h2>
-            <form id="eventForm">
-                <div class="form-group">
-                    <label for="eventName">Название события:</label>
-                    <input type="text" id="eventName" name="eventName" required>
-                </div>
-                <div class="form-group">
-                    <label for="eventDescription">Описание:</label>
-                    <textarea id="eventDescription" name="eventDescription" rows="4" required></textarea>
-                </div>
-                <div class="form-group">
-                    <label for="eventDate">Дата:</label>
-                    <input type="date" id="eventDate" name="eventDate" required>
-                </div>
-                <div class="form-group">
-                    <label for="eventLocation">Локация:</label>
-                    <input type="text" id="eventLocation" name="eventLocation" required>
-                </div>
-                <button type="submit" class="add-event-button">Добавить событие</button>
-            </form>
-        </div>
-    </div>
 
 
-
-    <div class="event-form">
-        <h2>Информация о событии</h2>
-        <div class="event-info">
-            <label>Название:</label>
-            <p>Событие 1</p>
-        </div>
-        <div class="event-info">
-            <label>Информация:</label>
-            <p>Описание события 1</p>
-        </div>
-        <!-- Другие поля для информации о событии могут быть добавлены здесь -->
-    </div>
+    <div class="event-form"></div>
 
     <!-- Добавьте другие формы для других событий по аналогии с вышеуказанным -->
 
@@ -236,32 +211,245 @@
         </a>
     </div>
 
+    
+    <div id="messageContainer" class="message-container"></div>
+
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Добавить событие</h2>
+            <form id="eventForm">
+                <div class="form-group">
+                    <label for="eventName">Название:</label>
+                    <input type="text" id="eventName" name="eventName" required>
+                </div>
+                <div class="form-group">
+                    <label for="eventDescription">Описание:</label>
+                    <textarea id="eventDescription" name="eventDescription" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="eventDate">Дата:</label>
+                    <input type="date" id="eventDate" name="eventDate" required>
+                </div>
+                <div class="form-group">
+                    <label for="eventPlaces">Кол-во людей:</label>
+                    <input type="number" id="eventPlaces" name="eventPlaces" required>
+                </div>
+                <div class="form-group">
+                    <label for="eventLocation">Локация:</label>
+                    <input type="text" id="eventLocation" name="eventLocation" required>
+                </div>
+                <button type="submit" class="add-event-button">Добавить</button>
+            </form>
+        </div>
+    </div>
     <script>
-        // Находим кнопку открытия модального окна
-        var openModalBtn = document.getElementById('openModal');
+        const urlParams = new URLSearchParams(window.location.search);
+        const token = urlParams.get('token');
 
-        // Находим модальное окно
-        var modal = document.getElementById('myModal');
+        const messageLink = document.querySelector('a[href="message.html"]');
+        const poiskLink = document.querySelector('a[href="poisk.html"]');
+        const eventLink = document.querySelector('a[href="event.html"]');
+        const profilLink = document.querySelector('a[href="profil.html"]');
 
-        // Находим кнопку закрытия модального окна
-        var closeModalBtn = document.getElementsByClassName('close')[0];
+        // Добавляем токен к адресам URL каждой ссылки
+        messageLink.href = `message.html?token=${token}`;
+        poiskLink.href = `poisk.html?token=${token}`;
+        eventLink.href = `event.html?token=${token}`;
+        profilLink.href = `profil.html?token=${token}`;
 
-        // При клике на кнопку открытия модального окна показываем его
-        openModalBtn.onclick = function() {
-            modal.style.display = 'block';
+function loadEvents() {
+    fetch(`http://blogsite.log/api/showEvent/${token}`)
+        .then(response => response.json())
+        .then(data => {
+            renderEvents(data);
+        })
+        .catch(error => console.error('Ошибка при загрузке данных:', error));
+}
+
+function renderEvents(events) {
+    const eventInfoContainer = document.querySelector('.event-form');
+    eventInfoContainer.innerHTML = '';
+
+    events.forEach(event => {
+        const eventWrapper = document.createElement('div');
+        eventWrapper.classList.add('event-wrapper');
+
+        const eventInfoDiv = document.createElement('div');
+        eventInfoDiv.classList.add('event-info');
+
+        const namePara = document.createElement('p');
+        namePara.innerHTML = `<em>ID: ${event.id}</em>&nbsp;&nbsp;&nbsp;<strong>${event.name}</strong>`;
+
+        const descriptionPara = document.createElement('p');
+        descriptionPara.textContent = `Описание: `;
+        const descriptionContent = document.createElement('span');
+        descriptionContent.textContent = event.description;
+        descriptionPara.appendChild(descriptionContent);
+
+        const LocationPara = document.createElement('p');
+        LocationPara.textContent = `Локация: `;
+        const LocationContent = document.createElement('span');
+        LocationContent.textContent = event.location;
+        LocationPara.appendChild(LocationContent);
+
+        const DatePara = document.createElement('p');
+        DatePara.textContent = `Время: `;
+        const DateContent = document.createElement('span');
+        DateContent.textContent = event.date_event;
+        DatePara.appendChild(DateContent);
+
+        const attendeesInfo = document.createElement('p');
+        attendeesInfo.textContent = `Участники: ${event.registered_users}/${event.places}`;
+
+        eventInfoDiv.appendChild(namePara);
+        eventInfoDiv.appendChild(descriptionPara);
+        eventInfoDiv.appendChild(LocationPara);
+        eventInfoDiv.appendChild(DatePara);
+        eventInfoDiv.appendChild(attendeesInfo);
+
+        const joinButton = document.createElement('button');
+        joinButton.textContent = 'Присоединиться';
+        joinButton.classList.add('join-button');
+        joinButton.dataset.eventId = event.id;
+        eventWrapper.appendChild(joinButton);
+
+        positionJoinButton(eventWrapper);
+
+        const divider = document.createElement('hr');
+        eventInfoContainer.appendChild(divider);
+
+        eventWrapper.appendChild(eventInfoDiv);
+        eventInfoContainer.appendChild(eventWrapper);
+        joinButton.addEventListener('click', function() {
+            const eventId = this.dataset.eventId; // Получаем значение айди из dataset кнопки
+
+            fetch(`http://blogsite.log/api/eventPart/${token}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    event_id: eventId
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                const messageContainer = document.getElementById('messageContainer');
+                if (data.message) {
+                    messageContainer.textContent = data.message;
+                } else if (data.error) {
+                    messageContainer.textContent = data.error;
+                }
+                messageContainer.style.display = 'block';
+
+                // Через 3 секунды скрываем сообщение
+                setTimeout(function() {
+                    messageContainer.style.display = 'none';
+                }, 3000);
+            })
+            .catch(error => console.error('Ошибка при загрузке данных:', error));
+        });
+    });
+}
+
+function positionJoinButton(eventWrapper) {
+    const joinButton = eventWrapper.querySelector('.join-button');
+    joinButton.style.position = 'relative';
+    joinButton.style.float = 'right';
+    joinButton.style.clear = 'both';
+
+    joinButton.style.backgroundColor = '#007bff';
+    joinButton.style.color = '#fff';
+    joinButton.style.border = 'none';
+    joinButton.style.padding = '8px 16px';
+    joinButton.style.borderRadius = '4px';
+    joinButton.style.cursor = 'pointer';
+    joinButton.style.transition = 'background-color 0.3s ease';
+
+    joinButton.addEventListener('mouseover', function() {
+        joinButton.style.backgroundColor = '#0056b3';
+    });
+
+    joinButton.addEventListener('mouseout', function() {
+        joinButton.style.backgroundColor = '#007bff';
+    });
+}
+
+window.onload = loadEvents;
+
+const openModalBtn = document.getElementById('openModal');
+const modal = document.getElementById('myModal');
+const closeModalBtn = document.getElementsByClassName('close')[0];
+const searchInput = document.querySelector('.search-input');
+const filterButton = document.querySelector('.filter-button');
+
+openModalBtn.onclick = function() {
+    modal.style.display = 'block';
+}
+
+closeModalBtn.onclick = function() {
+    modal.style.display = 'none';
+}
+
+window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = 'none';
+    }
+}
+
+filterButton.onclick = function() {
+    const searchText = searchInput.value.trim();
+    fetch(`http://blogsite.log/api/searchEvents/${token}?text=${searchText}`)
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Ошибка HTTP: ' + response.status);
         }
+        return response.json();
+    })
+    .then(data => {
+        renderEvents(data);
+    })
+    .catch(error => console.error('Ошибка при поиске событий:', error));
+};
 
-        // При клике на кнопку закрытия модального окна скрываем его
-        closeModalBtn.onclick = function() {
-            modal.style.display = 'none';
-        }
+        if (!token) {
+            console.error('Токен отсутствует в URL-адресе страницы.');
+        } else {
+            // Обработчик события отправки формы
+        document.getElementById('eventForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Предотвращаем отправку формы по умолчанию
 
-        // Закрываем модальное окно при клике вне его области
-        window.onclick = function(event) {
-            if (event.target == modal) {
-                modal.style.display = 'none';
-            }
+            // Создаем объект с данными события из формы
+            const eventData = {
+                name: document.getElementById('eventName').value,
+                description: document.getElementById('eventDescription').value,
+                date_event: document.getElementById('eventDate').value,
+                places: document.getElementById('eventPlaces').value,
+                location: document.getElementById('eventLocation').value
+            };
+
+            // Опции запроса
+            const options = {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(eventData)
+            };
+
+            // Выполняем запрос к API для добавления события
+            fetch(`http://blogsite.log/api/insertEvent/${token}`, options)
+                .then(response => response.json())
+                .then(data => {
+                    alert(data.message); // Выводим сообщение об успешном добавлении события
+                    modal.style.display = 'none'; // Закрываем модальное окно
+                    loadEvents(); // Перезагружаем список событий
+                })
+                .catch(error => console.error('Ошибка при добавлении события:', error));
+        });
         }
+        
     </script>
 </body>
 </html>

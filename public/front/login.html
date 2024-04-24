@@ -91,9 +91,9 @@
             .then(data => {
                 // Проверяем ответ от сервера
                 if (data.message === "Login successful") {
-                    // Если вход успешен, перенаправляем на страницу профиля и передаем id пользователя
-                    window.location.href = "profil.html?id=" + data.user.id;
-                } else {
+                    // Если вход успешен, перенаправляем на страницу профиля и передаем токен пользователя
+                    window.location.href = "profil.html?token=" + data.user.tokens[0].token;
+                } else {    
                     // Если вход неуспешен, выводим сообщение об ошибке
                     var errorMessage = document.getElementById('errorMessage');
                     errorMessage.textContent = "Неправильный логин или пароль";

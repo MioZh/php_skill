@@ -102,7 +102,7 @@
                     if (data.access_token) {
                         alert('Регистрация успешна!');
                         // Перенаправление на страницу профиля с передачей id пользователя
-                        window.location.href = 'profil.html?id=' + data.user.id;
+                        window.location.href = 'profil.html?token=' + data.access_token;
                     } else {
                         alert('Произошла ошибка при регистрации.');
                     }

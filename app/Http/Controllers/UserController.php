@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Token;
 
 class UserController extends Controller
 {
@@ -34,6 +35,12 @@ class UserController extends Controller
     public function show($id)
     {
         $user = User::with(['skills'])->find($id);
+        return $user;
+    }
+
+    public function showtoken($token)
+    {
+        $user = Token::where('token', $token)->first();
         return $user;
     }
 

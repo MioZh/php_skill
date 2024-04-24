@@ -206,8 +206,7 @@
 <body>
     
     <div class="profile-container">
-        <a href="login.html"><div class="settings-button"><img src="pict/set.png" alt="Иконка настроек"></div></a>
-        <a href="login.html"><div class="logout-button"><img src="pict/logout.png" alt="Иконка настроек"></div></a>
+        <a href="login.html"><div class="settings-button"><img src="pict/logout.png" alt="Иконка выхода"></div></a>
         <h2>Профиль пользователя</h2>
         <div class="profile-info-container">
             <img class="profile-picture" src="pict/default_image.jpg" alt="Фотография профиля">
@@ -238,7 +237,7 @@
             <span>Профиль</span>
         </a>
     </div>
-
+    
     <div class="review-container">
         <span class="close">&times;</span>
         <div class="review">
@@ -264,34 +263,127 @@
     </div>
     <script>
         const urlParams = new URLSearchParams(window.location.search);
-        const userId = urlParams.get('id');
+        const token = urlParams.get('token');
 
-        // Отправляем запрос на API для получения данных пользователя по его id
-        fetch(`http://blogsite.log/api/showUser/${userId}`)
+
+        const messageLink = document.querySelector('a[href="message.html"]');
+        const poiskLink = document.querySelector('a[href="poisk.html"]');
+        const eventLink = document.querySelector('a[href="event.html"]');
+        const profilLink = document.querySelector('a[href="profil.html"]');
+
+        // Добавляем токен к адресам URL каждой ссылки
+        messageLink.href = `message.html?token=${token}`;
+        poiskLink.href = `poisk.html?token=${token}`;
+        eventLink.href = `event.html?token=${token}`;
+        profilLink.href = `profil.html?token=${token}`;
+
+        fetch(`http://blogsite.log/api/showtoken/${token}`)
+        .then(response => response.json())
+        .then(data => {
+            const userId = data.user_id; // Присваиваем userId значение user_id из JSON-ответа
+
+            // Отправляем запрос на API для получения данных пользователя по его id
+            fetch(`http://blogsite.log/api/showUser/${userId}`)
             .then(response => response.json())
-            .then(data => {
+            .then(userData => {
                 // Отображаем имя и email пользователя на странице профиля
-                document.querySelector('.username').textContent = data.name;
-                document.getElementById('userEmail').textContent = data.email;
+                document.querySelector('.username').textContent = userData.name;
+                document.getElementById('userEmail').textContent = userData.email;
                 // Заполняем поля в окне редактирования профиля
-                document.getElementById('userNameInput').value = data.name;
-                document.getElementById('userEmailInput').value = data.email;
+                document.getElementById('userNameInput').value = userData.name;
+                document.getElementById('userEmailInput').value = userData.email;
+
+                // Запрашиваем фотографию пользователя
+                fetch(`http://blogsite.log/api/showImage/${userId}`)
+                .then(response => response.json())
+                .then(imageData => {
+                    // Проверяем, вернул ли метод путь к изображению
+                    if (imageData.image_path !== null) {
+                    // Если вернул, обновляем изображение профиля на странице
+                    document.querySelector('.profile-picture').src = imageData.image_path;
+                    }
+                })
+                .catch(error => {
+                    console.error('Ошибка при получении фотографии пользователя:', error);
+                });
             })
             .catch(error => {
                 console.error('Ошибка при получении данных пользователя:', error);
             });
+            //////////////////////////////////////
+            saveChangesButton.addEventListener('click', () => {
+        const newName = document.getElementById('userNameInput').value;
+        const newEmail = document.getElementById('userEmailInput').value;
+        const newImage = document.getElementById('userImageInput').files[0];
 
+        // Создаем объект FormData и добавляем в него данные о новом имени и email пользователя
+        const formData = new FormData();
+        formData.append('name', newName);
+        formData.append('email', newEmail);
+
+        // Отправляем запрос на обновление данных пользователя
+        fetch(`http://blogsite.log/api/updateUser/${userId}`, {
+            method: 'POST',
+            body: formData
+        })
+            .then(response => {
+            if (!response.ok) {
+                throw new Error('Ошибка сохранения данных пользователя');
+            }
+            // Если данные пользователя успешно обновлены, отправляем запрос на обновление изображения
+            if (newImage) {
+                // Если есть выбранное изображение, добавляем его к FormData
+                formData.append('image', newImage);
+                return fetch(`http://blogsite.log/api/updateImage/${userId}`, {
+                method: 'POST',
+                body: formData
+                });
+            } else {
+                // Если изображение не выбрано, просто возвращаем успешный ответ
+                return Promise.resolve({ ok: true });
+            }
+            })
+            .then(response => {
+            if (!response.ok) {
+                throw new Error('Ошибка сохранения изображения');
+            }
+            // Если изображение успешно обновлено или не было выбрано, возвращаем успешный ответ
+            return response.json();
+            })
+            .then(data => {
+            // Проверяем, было ли изменено имя пользователя в ответе от сервера
+            if (data && data.name) {
+                // Обновляем имя пользователя на странице
+                document.querySelector('.username').textContent = data.name;
+            }
+            // Проверяем, был ли изменен email пользователя в ответе от сервера
+            if (data && data.email) {
+                // Обновляем email пользователя на странице
+                document.getElementById('userEmail').textContent = data.email;
+            }
+            // Скрываем окно редактирования профиля
+            editProfileModal.style.display = 'none';
+            })
+            .catch(error => {
+            console.error('Ошибка сохранения данных:', error);
+            });
+        });
+        })
+        .catch(error => {
+            console.error('Ошибка при получении данных:', error);
+            // Обработка ошибок при запросе данных из API
+        });
 
         const reviewButton = document.querySelector('.review-button');
         const reviewContainer = document.querySelector('.review-container');
         const rewcloseButton = document.querySelector('.review-container .close');
 
         reviewButton.addEventListener('click', () => {
-            reviewContainer.classList.add('show');
+        reviewContainer.classList.add('show');
         });
 
         rewcloseButton.addEventListener('click', () => {
-            reviewContainer.classList.remove('show');
+        reviewContainer.classList.remove('show');
         });
 
         const editProfileButton = document.querySelector('.edit-profile-button');
@@ -301,86 +393,15 @@
 
         // Отображение окна редактирования профиля при нажатии на кнопку "Редактировать профиль"
         editProfileButton.addEventListener('click', () => {
-            editProfileModal.style.display = 'block';
+        editProfileModal.style.display = 'block';
         });
 
         // Скрытие окна редактирования профиля при нажатии на кнопку "Закрыть"
         closeButton.addEventListener('click', () => {
-            editProfileModal.style.display = 'none';
+        editProfileModal.style.display = 'none';
         });
 
         // Сохранение изменений при нажатии на кнопку "Сохранить изменения"
-        saveChangesButton.addEventListener('click', () => {
-            const newName = document.getElementById('userNameInput').value;
-            const newEmail = document.getElementById('userEmailInput').value;
-            const newImage = document.getElementById('userImageInput').files[0];
-
-            // Создаем объект FormData и добавляем в него данные о новом имени и email пользователя
-            const formData = new FormData();
-            formData.append('name', newName);
-            formData.append('email', newEmail);
-
-            // Отправляем запрос на обновление данных пользователя
-            fetch(`http://blogsite.log/api/updateUser/${userId}`, {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Ошибка сохранения данных пользователя');
-                }
-                // Если данные пользователя успешно обновлены, отправляем запрос на обновление изображения
-                if (newImage) {
-                    // Если есть выбранное изображение, добавляем его к FormData
-                    formData.append('image', newImage);
-                    return fetch(`http://blogsite.log/api/updateImage/${userId}`, {
-                        method: 'POST',
-                        body: formData
-                    });
-                } else {
-                    // Если изображение не выбрано, просто возвращаем успешный ответ
-                    return Promise.resolve({ ok: true });
-                }
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Ошибка сохранения изображения');
-                }
-                // Если изображение успешно обновлено или не было выбрано, возвращаем успешный ответ
-                return response.json();
-            })
-            .then(data => {
-                // Проверяем, было ли изменено имя пользователя в ответе от сервера
-                if (data && data.name) {
-                    // Обновляем имя пользователя на странице
-                    document.querySelector('.username').textContent = data.name;
-                }
-                // Проверяем, был ли изменен email пользователя в ответе от сервера
-                if (data && data.email) {
-                    // Обновляем email пользователя на странице
-                    document.getElementById('userEmail').textContent = data.email;
-                }
-                // Скрываем окно редактирования профиля
-                editProfileModal.style.display = 'none';
-            })
-            .catch(error => {
-                console.error('Ошибка сохранения данных:', error);
-            });
-        });
-
-        // Запрашиваем фотографию пользователя
-        fetch(`http://blogsite.log/api/showImage/${userId}`)
-            .then(response => response.json())
-            .then(data => {
-                // Проверяем, вернул ли метод путь к изображению
-                if (data.image_path !== null) {
-                    // Если вернул, обновляем изображение профиля на странице
-                    document.querySelector('.profile-picture').src = data.image_path;
-                }
-            })
-            .catch(error => {
-                console.error('Ошибка при получении фотографии пользователя:', error);
-            });
     </script>
 </body>
 </html>

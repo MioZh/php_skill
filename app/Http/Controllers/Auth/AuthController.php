@@ -40,7 +40,7 @@ class AuthController extends Controller
         Image::create([
             'image_path' => $pth,
             'user_id' => $user->id,
-        ]);
+        ]); 
         return response()->json(['message' => 'Пользователь успешно зарегистрирован', 'user' => $user, 'access_token' => $token]);
     }
 
@@ -53,16 +53,11 @@ class AuthController extends Controller
 
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
+            $token = $user->tokens;
+            
             return response()->json(['message' => 'Login successful', 'user' => $user]);
         } else {
             return response()->json(['message' => 'Invalid credentials'], 401);
         }
-    }
-
-    public function user()
-    {
-        $user = Auth::user();
-
-        return response()->json(['user' => $user]);
     }
 }

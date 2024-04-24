@@ -135,6 +135,21 @@
             <span>Профиль</span>
         </a>
     </div>
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const token = urlParams.get('token');
 
+        // Получаем ссылки из DOM
+        const messageLink = document.querySelector('a[href="message.html"]');
+        const poiskLink = document.querySelector('a[href="poisk.html"]');
+        const eventLink = document.querySelector('a[href="event.html"]');
+        const profilLink = document.querySelector('a[href="profil.html"]');
+
+        // Добавляем токен к адресам URL каждой ссылки
+        messageLink.href = `message.html?token=${token}`;
+        poiskLink.href = `poisk.html?token=${token}`;
+        eventLink.href = `event.html?token=${token}`;
+        profilLink.href = `profil.html?token=${token}`;
+    </script>
 </body>
 </html>
